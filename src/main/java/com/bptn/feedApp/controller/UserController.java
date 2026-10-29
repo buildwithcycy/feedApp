@@ -10,7 +10,6 @@ import com.bptn.feedApp.service.UserService;
 import java.util.List;
 import java.util.Optional;
 
-import com.bptn.feedApp.jdbc.UserBean;
 import com.bptn.feedApp.jpa.User;
 
 import org.springframework.web.bind.annotation.PathVariable;

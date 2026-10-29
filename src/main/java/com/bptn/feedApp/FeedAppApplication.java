@@ -5,12 +5,11 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.scheduling.annotation.EnableAsync;
 
-
-@EnableAsync
-@SpringBootApplication
 //This is where the dependency injection takes place. 
 //It injects all the dependencies that are needed for the application to run. 
 //It also scans for components, configurations, and services in the com.bptn.feedApp package and its sub-packages.
+@EnableAsync
+@SpringBootApplication
 public class FeedAppApplication {
 
 	public static void main(String[] args) {
