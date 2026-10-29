@@ -1,5 +1,8 @@
 package com.bptn.feedApp.service;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -13,6 +16,7 @@ import org.thymeleaf.context.Context;
 import jakarta.mail.internet.MimeMessage;
 import com.bptn.feedApp.jpa.User;
 import org.springframework.scheduling.annotation.Async;
+
 
 @Service
 public class EmailService {
@@ -75,6 +79,15 @@ public class EmailService {
 	 String.format("Welcome %s %s",user.getFirstName(),user.getLastName()), 
 	                   this.provider.getClientVerifyExpiration());
 	}    
+	
+	@Async
+	public void sendResetPasswordEmail(User user) {
+	        
+	    this.sendEmail(user, this.provider.getClientResetParam(), "reset_password", "Reset your password", this.provider.getClientResetExpiration());
+	}   
+	
+	
+	
 	
 	
 }

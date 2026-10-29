@@ -21,9 +21,13 @@ import com.bptn.feedApp.provider.ResourceProvider;
 import com.bptn.feedApp.security.JwtService;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 import org.springframework.http.HttpHeaders;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class UserService {
+	
+	final Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	UserRepository userRepository;
@@ -118,6 +122,29 @@ public class UserService {
 	    headers.add(AUTHORIZATION, this.jwtService.generateJwtToken(username,this.provider.getJwtExpiration()));
 
 	    return headers;
+	}
+	
+	public void sendResetPasswordEmail(String emailId) {
+
+		  Optional<User> opt = this.userRepository.findByEmailId(emailId);
+
+		  if (opt.isPresent()) {
+		    this.emailService.sendResetPasswordEmail(opt.get());
+		  } else {
+		    logger.debug("Email doesn't exist, {}", emailId);
+		  }
+		}
+	
+	public void resetPassword(String password) {
+
+	    String username = SecurityContextHolder.getContext().getAuthentication().getName();
+
+	    User user = this.userRepository.findByUsername(username)
+	                .orElseThrow(() -> new UserNotFoundException(String.format("Username doesn't exist, %s",username)));
+
+	    user.setPassword(this.passwordEncoder.encode(password));
+
+	    this.userRepository.save(user);
 	}
 	
 }
