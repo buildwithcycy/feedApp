@@ -27,6 +27,7 @@ import org.springframework.http.ResponseEntity;
 
 import tools.jackson.databind.JsonNode;
 import tools.jackson.databind.ObjectMapper;
+import com.bptn.feedApp.jpa.Profile;
 
 
 @CrossOrigin(exposedHeaders = "Authorization")
@@ -120,6 +121,30 @@ public class UserController {
 	    logger.debug("Resetting Password, password: {}", json.get("password").asText());
 
 	    this.userService.resetPassword(json.get("password").asText());
+	}
+	
+	@GetMapping("/get")
+	public User getUser() {
+	      
+	   logger.debug("Getting User Data");
+	      
+	   return this.userService.getUser();
+	}
+	
+	@PostMapping("/update")
+	public User updateUser(@RequestBody User user) {
+	        
+	    logger.debug("Updating User Data");
+	        
+	    return this.userService.updateUser(user);
+	}
+	
+	@PostMapping("/update/profile")
+	public User updateUserProfile(@RequestBody Profile profile) {
+	        
+	    logger.debug("Updating User Profile Data, Profile: {}", profile.toString());
+	        
+	    return this.userService.updateUserProfile(profile);
 	}
 	
 }
